@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model RateHourly {
+  id           Int      @id @default(autoincrement())
+  symbol       String
+  hourStart    DateTime @db.Timestamptz(6)
+  avgPrice     Decimal  @db.Decimal(18, 8)
+  sampleCount  Int
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+
+  @@unique([symbol, hourStart])
+  @@index([symbol, hourStart])
+}
